@@ -1,1 +1,43 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Global Electricity Slideshow – OWID</title>
+  <link rel="stylesheet" href="style.css" />
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
+</head>
+<body>
+  <h1>Global Electricity Story</h1>
+  <p class="subtitle">Interactive Slideshow with User Exploration</p>
+
+  <svg id="vis" width="960" height="500"></svg>
+
+  <div id="controls">
+    <div id="scene1-controls">
+      <label><input type="checkbox" id="chkRenew" checked> Renewables</label>
+      <label><input type="checkbox" id="chkFossil" checked> Fossil</label>
+      <label><input type="checkbox" id="chkNuclear" checked> Nuclear</label>
+    </div>
+
+    <div id="scene4-controls">
+      <label for="countryDropdown">Explore Country:</label>
+      <select id="countryDropdown"></select>
+      <label for="energyType">Energy Type:</label>
+      <select id="energyType">
+        <option value="renewables">Renewables</option>
+        <option value="fossil">Fossil</option>
+        <option value="nuclear">Nuclear</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="nav">
+    <button id="back">&larr; Back</button>
+    <span id="scene-title">Scene 1</span>
+    <button id="next">Next &rarr;</button>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
