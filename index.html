@@ -2,40 +2,30 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Global Electricity Slideshow – OWID</title>
+  <title>Video Game Sales Story</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3-annotation/2.5.1/d3-annotation.min.js"></script>
 </head>
 <body>
-  <h1>Global Electricity Story</h1>
+  <h1>Video Game Sales Story</h1>
   <p class="subtitle">Interactive Slideshow with User Exploration</p>
 
-  <svg id="vis" width="960" height="500"></svg>
+  <svg id="vis" width="1600" height="800"></svg>
 
   <div id="controls">
-    <div id="scene1-controls">
-      <label><input type="checkbox" id="chkRenew" checked> Renewables</label>
-      <label><input type="checkbox" id="chkFossil" checked> Fossil</label>
-      <label><input type="checkbox" id="chkNuclear" checked> Nuclear</label>
-    </div>
+<div id="scene3-controls">
+  <label for="yearSelect">Select Year:</label>
+  <select id="yearSelect"></select>
 
-    <div id="scene4-controls">
-      <label for="countryDropdown">Explore Country:</label>
-      <select id="countryDropdown"></select>
-      <label for="energyType">Energy Type:</label>
-      <select id="energyType">
-        <option value="renewables">Renewables</option>
-        <option value="fossil">Fossil</option>
-        <option value="nuclear">Nuclear</option>
-      </select>
-    </div>
+  <label for="drillSelect">Select Genre:</label>
+  <select id="drillSelect"></select>
+</div>
   </div>
 
   <div id="nav">
-    <button id="back">&larr; Back</button>
-    <span id="scene-title">Scene 1</span>
-    <button id="next">Next &rarr;</button>
+    <button id="back">← Back</button>
+    <span id="scene-title">Scene 1: Regional Sales Over Time</span>
+    <button id="next">Next →</button>
   </div>
 
   <script src="script.js"></script>
