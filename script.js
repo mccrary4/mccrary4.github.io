@@ -1,16 +1,18 @@
-const width = 1600, height = 800;
+const width = 1400, height = 700;
 const margin = { top: 60, right: 40, bottom: 60, left: 200 };
 
 let currentScene = 0;
 let data = [], genres = [];
 let selectedGenre = "All";
-let selectedYear = 2016;
+let selectedYear = 2008;
 
 const scenes = [
+  "Introduction",
   "Regional Sales Over Time",
-  "Platform Popularity by Year (Stacked)",
-  "Top Games by Genre and Year"
+  "Platform Popularity",
+  "Genre Drilldown"
 ];
+
 
 const svg = d3.select("#vis");
 svg.append("g").attr("class", "content");
@@ -49,6 +51,7 @@ d3.csv("https://mccrary4.github.io/vgsales.csv", d => ({
 // Navigation
 d3.select("#next").on("click", () => {
   if (currentScene < scenes.length - 1) currentScene++;
+  else currentScene = 0;
   renderScene();
 });
 d3.select("#back").on("click", () => {
@@ -57,21 +60,94 @@ d3.select("#back").on("click", () => {
 });
 d3.select("#drillSelect").on("change", function () {
   selectedGenre = this.value;
-  if (currentScene === 2) renderScene();
+  if (currentScene === 3) renderScene();
 });
 d3.select("#yearSelect").on("change", function () {
   selectedYear = +this.value;
-  if (currentScene === 2) renderScene();
+  if (currentScene === 3) renderScene();
 });
 
 function renderScene() {
   svg.select(".content").html("");
-  d3.select("#scene-title").text(`Scene ${currentScene + 1}: ${scenes[currentScene]}`);
-  d3.select("#scene3-controls").style("display", currentScene === 2 ? "inline-block" : "none");
+  d3.select("#scene3-controls").style("display", currentScene === 3 ? "inline-block" : "none");
 
-  if (currentScene === 0) drawScene1();
-  else if (currentScene === 1) drawScene2();
-  else if (currentScene === 2) drawScene3();
+    // Change the Next button text dynamically
+  if (currentScene === scenes.length - 1) {
+    d3.select("#next").text("Finish");
+    d3.select("#back").text("← Back");
+  } else if (currentScene === 0) {
+    d3.select("#next").text("Start");
+  } else {
+    d3.select("#next").text("Next →");
+    d3.select("#back").text("← Back");
+  }
+
+  d3.select("#back").style("display", currentScene === 0 ? "none" : "inline-block");
+
+  if (currentScene === 0){
+        d3.select("#description").text(``);
+    d3.select("#scene-title").text(`${scenes[currentScene]}`);
+    drawScene0();
+  }
+  else if (currentScene === 1){
+     d3.select("#scene-title").text(`Scene ${currentScene}: ${scenes[currentScene]}`);
+    d3.select("#description").text(`Video game sales experienced steady growth throughout the late 1990s and early 2000s,
+       fueled by advancements in console hardware, the rise of 3D graphics, and expanding global markets. By 2008, sales reached an all-time high.
+        Hover your mouse over the chart to explore sales data by region and year.`);
+    drawScene1();
+  } 
+  else if (currentScene === 2){
+     d3.select("#scene-title").text(`Scene ${currentScene}: ${scenes[currentScene]}`);
+        d3.select("#description").text(`Between 2006 and 2011, some of the most iconic gaming consoles dominated the market and drove record-breaking video game sales. Consoles like the Xbox 360, PlayStation 3,
+           Nintendo Wii, and Nintendo DS were in their prime, capturing the attention of players around the world. Many of these systems continue to be celebrated by gamers today.
+            Hover your mouse over the bars to explore how different consoles performed over the years.`);
+    drawScene2();
+  } 
+  else if (currentScene === 3){
+     d3.select("#scene-title").text(`Scene ${currentScene}: ${scenes[currentScene]}`);
+    d3.select("#description").text(`2008 was a landmark year for gaming, marked by the release of timeless titles that continue to be adored today.
+        Games like Mario Kart Wii, Grand Theft Auto IV, Call of Duty: World at War, and Super Smash Bros. Brawl captivated players and drove massive global sales.
+        These standout hits exemplify why the late 2000s are often considered a golden era of gaming.
+        Use the dropdowns to explore top-selling titles across different years and genres.`);
+    drawScene3();
+  } 
+}
+
+function drawScene0() {
+  const content = svg.select(".content");
+
+  const lines = [
+    "Welcome to a narrative visualization through over three decades of video game history.",
+    "From humble beginnings in the early 1980s to the blockbuster franchises of the 2010s,",
+    "this visualization explores how the industry evolved and exploded in popularity.",
+    "",
+    "Among these years, the late 2000s stand out as a true golden age of gaming —",
+    "a period marked by record-breaking sales, revolutionary consoles like the Xbox 360,",
+    "PlayStation 3, Wii, and Nintendo DS, and iconic titles that continue to shape the gaming today.",
+    "",
+    "Use the navigation buttons below to dive into the data and discover",
+    "the story behind gaming’s most dynamic era."
+  ];
+
+  lines.forEach((line, i) => {
+    content.append("text")
+      .attr("x", width / 2)
+      .attr("y", height / 2 - 100 + i * 24)
+      .attr("text-anchor", "middle")
+      .text(line);
+  });
+
+    content.append("a")
+    .attr("xlink:href", "https://www.kaggle.com/datasets/thedevastator/global-video-game-sales/data")
+    .attr("target", "_blank")
+    .append("text")
+    .attr("x", width / 2)
+    .attr("y", height - 50)
+    .attr("text-anchor", "middle")
+    .attr("font-size", "14px")
+    .attr("fill", "#1d4ed8")
+    .style("text-decoration", "underline")
+    .text("Link to Dataset");
 }
 
 // ----------- Scene 1: Regional Sales Over Time -----------
@@ -161,6 +237,29 @@ function drawScene1() {
     g.append("rect").attr("width", 12).attr("height", 12).attr("fill", color(region));
     g.append("text").attr("x", 18).attr("y", 10).text(region + " Sales").attr("font-size", "12px");
   });
+
+  
+  const annotations = [
+    {
+      note: {
+        label: "Highest Sales Peak",
+        title: "2008"
+      },
+      x: x(2008),
+      y: y(years.find(d => d.year === 2008).NA),  // Adjust region if needed
+      dx: 30,
+      dy: -40,
+      color: "gray"
+    }
+  ];
+
+  const makeAnnotations = d3.annotation()
+    .type(d3.annotationLabel)
+    .annotations(annotations);
+
+  content.append("g")
+    .attr("class", "annotation-group")
+    .call(makeAnnotations);
 }
 
 // ----------- Scene 2: Stacked Bar Chart by Year -----------

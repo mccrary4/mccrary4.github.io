@@ -5,12 +5,15 @@
   <title>Video Game Sales Story</title>
   <link rel="stylesheet" href="style.css" />
   <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://unpkg.com/d3-svg-annotation@2.5.1/d3-annotation.min.js"></script>
 </head>
 <body>
-  <h1>Video Game Sales Story</h1>
-  <p class="subtitle">Interactive Slideshow with User Exploration</p>
-
-  <svg id="vis" width="1600" height="800"></svg>
+  <h1>Video Game Sales Interactive Slideshow</h1>
+  <div id="description">
+  <p>
+  </p>
+  </div>
+  <svg id="vis" width="1400" height="700"></svg>
 
   <div id="controls">
 <div id="scene3-controls">
@@ -23,9 +26,9 @@
   </div>
 
   <div id="nav">
-    <button id="back">← Back</button>
-    <span id="scene-title">Scene 1: Regional Sales Over Time</span>
-    <button id="next">Next →</button>
+    <button id="back"></button>
+    <span id="scene-title"></span>
+    <button id="next"></button>
   </div>
 
   <script src="script.js"></script>
