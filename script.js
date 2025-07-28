@@ -387,6 +387,40 @@ function drawScene2() {
     g.append("rect").attr("width", 10).attr("height", 10).attr("fill", color(platform));
     g.append("text").attr("x", 15).attr("y", 9).text(platform).attr("font-size", "11px");
   });
+
+const year2008 = stackedData.find(d => d.year === 2008);
+const sales = year2008 ? year2008["X360"] : null;
+
+
+if (sales) {
+  const xCoord = x(2008) + x.bandwidth() / 2;
+
+  // Stack offset: sum of platforms below "Wii"
+  const belowWii = platforms.slice(0, platforms.indexOf("X360")).reduce((sum, p) => sum + (year2008[p] || 0), 0);
+  const yCoord = y(sales + belowWii);
+
+  const annotation = [
+    {
+      note: {
+        title: "Golden Era",
+        label: "X360, Wii, PS3, DS all in primes"
+      },
+      x: xCoord,
+      y: yCoord,
+      dx: -120,
+      dy: 20,
+      color: "gray"
+    }
+  ];
+
+  const makeAnnotations = d3.annotation()
+    .type(d3.annotationLabel)
+    .annotations(annotation);
+
+  content.append("g")
+    .attr("class", "annotation-group")
+    .call(makeAnnotations);
+}
 }
 
 
